@@ -7,6 +7,7 @@ import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { categories, craftsmen } from "@/lib/mockData";
 import CraftsmanCard from "@/components/CraftsmanCard";
+import AdBanner from "@/components/AdBanner";
 
 export default function SearchPage() {
   const [category, setCategory] = useState<string>("all");
