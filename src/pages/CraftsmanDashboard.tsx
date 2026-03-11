@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Check, X, CheckCircle, Clock, DollarSign, BarChart3, ToggleLeft, ToggleRight } from "lucide-react";
+import { Check, X, CheckCircle, Clock, DollarSign, BarChart3, ToggleLeft, ToggleRight, Crown, Zap } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
