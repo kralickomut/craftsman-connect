@@ -104,14 +104,14 @@ export default function SearchPage() {
       <p className="text-sm text-muted-foreground mb-4">{filtered.length} výsledků</p>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filtered.map((c, i) => (
-          <>
-            <CraftsmanCard key={c.id} craftsman={c} />
+          <React.Fragment key={c.id}>
+            <CraftsmanCard craftsman={c} />
             {i === 2 && (
-              <div key="ad-inline" className="md:col-span-2 lg:col-span-3">
+              <div className="md:col-span-2 lg:col-span-3">
                 <AdBanner variant="compact" />
               </div>
             )}
-          </>
+          </React.Fragment>
         ))}
       </div>
       {filtered.length === 0 && (
