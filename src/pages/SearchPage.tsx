@@ -25,7 +25,10 @@ export default function SearchPage() {
       return true;
     });
 
+    // Premium craftsmen always first
     list.sort((a, b) => {
+      if (a.premium && !b.premium) return -1;
+      if (!a.premium && b.premium) return 1;
       if (sortBy === "rating") return b.rating - a.rating;
       if (sortBy === "distance") return a.distance - b.distance;
       if (sortBy === "price") return a.hourlyRate - b.hourlyRate;
