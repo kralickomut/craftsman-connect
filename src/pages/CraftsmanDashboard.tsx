@@ -16,6 +16,7 @@ export default function CraftsmanDashboard() {
   const [available, setAvailable] = useState(true);
   const [hourlyRate, setHourlyRate] = useState("450");
   const [workRadius, setWorkRadius] = useState("25");
+  const [premium, setPremium] = useState(false);
 
   const pending = orders.filter((o) => o.status === "pending");
   const active = orders.filter((o) => ["accepted", "in_progress"].includes(o.status));
