@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { categories, craftsmen } from "@/lib/mockData";
 import CraftsmanCard from "@/components/CraftsmanCard";
+import AdBanner from "@/components/AdBanner";
 
 const steps = [
   { icon: Search, title: "Vyberte službu", description: "Zvolte kategorii řemeslníka, kterého potřebujete." },
