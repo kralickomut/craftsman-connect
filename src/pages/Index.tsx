@@ -85,6 +85,13 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Ad Banner */}
+      <section className="py-8">
+        <div className="container">
+          <AdBanner />
+        </div>
+      </section>
+
       {/* Top craftsmen */}
       <section className="py-16">
         <div className="container">
