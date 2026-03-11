@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { categories, craftsmen } from "@/lib/mockData";
 import CraftsmanCard from "@/components/CraftsmanCard";
+import AdBanner from "@/components/AdBanner";
 
 const steps = [
   { icon: Search, title: "Vyberte službu", description: "Zvolte kategorii řemeslníka, kterého potřebujete." },
@@ -36,7 +37,7 @@ export default function Index() {
                 </Button>
               </Link>
               <Link to="/register?role=craftsman">
-                <Button size="lg" variant="outline" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 font-semibold text-base px-8">
+                <Button size="lg" className="bg-primary-foreground/15 text-primary-foreground border border-primary-foreground/30 hover:bg-primary-foreground/25 font-semibold text-base px-8">
                   Jsem řemeslník
                 </Button>
               </Link>
@@ -81,6 +82,13 @@ export default function Index() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Ad Banner */}
+      <section className="py-8">
+        <div className="container">
+          <AdBanner />
         </div>
       </section>
 

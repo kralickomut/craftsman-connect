@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { Search as SearchIcon, SlidersHorizontal } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,7 @@ import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { categories, craftsmen } from "@/lib/mockData";
 import CraftsmanCard from "@/components/CraftsmanCard";
+import AdBanner from "@/components/AdBanner";
 
 export default function SearchPage() {
   const [category, setCategory] = useState<string>("all");
@@ -25,7 +26,10 @@ export default function SearchPage() {
       return true;
     });
 
+    // Premium craftsmen always first
     list.sort((a, b) => {
+      if (a.premium && !b.premium) return -1;
+      if (!a.premium && b.premium) return 1;
       if (sortBy === "rating") return b.rating - a.rating;
       if (sortBy === "distance") return a.distance - b.distance;
       if (sortBy === "price") return a.hourlyRate - b.hourlyRate;
@@ -99,8 +103,15 @@ export default function SearchPage() {
       {/* Results */}
       <p className="text-sm text-muted-foreground mb-4">{filtered.length} výsledků</p>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filtered.map((c) => (
-          <CraftsmanCard key={c.id} craftsman={c} />
+        {filtered.map((c, i) => (
+          <React.Fragment key={c.id}>
+            <CraftsmanCard craftsman={c} />
+            {i === 2 && (
+              <div className="md:col-span-2 lg:col-span-3">
+                <AdBanner variant="compact" />
+              </div>
+            )}
+          </React.Fragment>
         ))}
       </div>
       {filtered.length === 0 && (

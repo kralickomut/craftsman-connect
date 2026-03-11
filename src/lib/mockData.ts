@@ -16,7 +16,7 @@ export const craftsmen: Craftsman[] = [
     id: "1", name: "Jan Novák", avatar: "", category: "Instalatér",
     rating: 4.8, reviewCount: 124, hourlyRate: 450, distance: 3.2,
     available: true, description: "Zkušený instalatér s 15 lety praxe. Specializuji se na opravy vodovodů, topení a kanalizací.",
-    phone: "+420 777 123 456", completedJobs: 312, location: "Praha 4", workRadius: 25,
+    phone: "+420 777 123 456", completedJobs: 312, location: "Praha 4", workRadius: 25, premium: true,
   },
   {
     id: "2", name: "Petr Svoboda", avatar: "", category: "Elektrikář",
@@ -46,7 +46,7 @@ export const craftsmen: Craftsman[] = [
     id: "6", name: "David Kučera", avatar: "", category: "Zámečník",
     rating: 4.9, reviewCount: 91, hourlyRate: 600, distance: 2.3,
     available: true, description: "Nouzové otevírání dveří, výměna zámků, bezpečnostní systémy.",
-    phone: "+420 777 678 901", completedJobs: 267, location: "Praha 1", workRadius: 35,
+    phone: "+420 777 678 901", completedJobs: 267, location: "Praha 1", workRadius: 35, premium: true,
   },
 ];
 

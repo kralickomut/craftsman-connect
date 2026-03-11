@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Star, MapPin, Clock } from "lucide-react";
+import { Star, MapPin, Clock, Crown } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Craftsman } from "@/lib/types";
@@ -7,10 +7,15 @@ import { Craftsman } from "@/lib/types";
 export default function CraftsmanCard({ craftsman }: { craftsman: Craftsman }) {
   return (
     <Link to={`/craftsman/${craftsman.id}`}>
-      <Card className="card-hover cursor-pointer overflow-hidden">
+      <Card className={`card-hover cursor-pointer overflow-hidden ${craftsman.premium ? "ring-2 ring-accent/50 relative" : ""}`}>
+        {craftsman.premium && (
+          <div className="absolute top-0 right-0 bg-accent text-accent-foreground text-xs font-bold px-2.5 py-1 rounded-bl-lg flex items-center gap-1 z-10">
+            <Crown className="h-3 w-3" /> TOP
+          </div>
+        )}
         <CardContent className="p-5">
           <div className="flex items-start gap-4">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold text-xl">
+            <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full font-bold text-xl ${craftsman.premium ? "bg-accent text-accent-foreground" : "bg-primary text-primary-foreground"}`}>
               {craftsman.name.charAt(0)}
             </div>
             <div className="flex-1 min-w-0">
