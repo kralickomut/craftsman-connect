@@ -132,7 +132,49 @@ export default function CraftsmanDashboard() {
           ))}
         </TabsContent>
 
-        <TabsContent value="settings" className="mt-4">
+        <TabsContent value="settings" className="mt-4 space-y-6">
+          {/* Premium Boost */}
+          <Card className={premium ? "ring-2 ring-accent/50" : ""}>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Crown className="h-5 w-5 text-accent" /> Zvýraznění profilu
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground mb-4">
+                Aktivujte prémiový profil a zobrazujte se na předních pozicích ve výsledcích hledání. Vaše karta bude zvýrazněna značkou TOP.
+              </p>
+              <div className="grid sm:grid-cols-3 gap-3 mb-4">
+                {[
+                  { label: "7 dní", price: "199 Kč", icon: Zap },
+                  { label: "30 dní", price: "599 Kč", badge: "Nejoblíbenější", icon: Crown },
+                  { label: "90 dní", price: "1 399 Kč", icon: Crown },
+                ].map((plan) => (
+                  <button
+                    key={plan.label}
+                    onClick={() => { setPremium(true); toast.success(`Prémiový profil aktivován na ${plan.label}!`); }}
+                    className={`relative rounded-lg border-2 p-4 text-center transition-all hover:border-accent ${plan.badge ? "border-accent bg-accent/5" : "border-border"}`}
+                  >
+                    {plan.badge && (
+                      <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground text-[10px] font-bold px-2 py-0.5 rounded-full">
+                        {plan.badge}
+                      </span>
+                    )}
+                    <plan.icon className="h-5 w-5 mx-auto text-accent mb-1" />
+                    <p className="font-bold text-lg">{plan.price}</p>
+                    <p className="text-sm text-muted-foreground">{plan.label}</p>
+                  </button>
+                ))}
+              </div>
+              {premium && (
+                <div className="flex items-center gap-2 text-sm text-success font-medium">
+                  <CheckCircle className="h-4 w-4" /> Prémiový profil je aktivní
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Settings */}
           <Card>
             <CardHeader><CardTitle>Nastavení profilu</CardTitle></CardHeader>
             <CardContent className="space-y-4 max-w-md">
