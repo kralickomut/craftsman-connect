@@ -1,14 +1,107 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Link } from "react-router-dom";
+import { ArrowRight, Search, CheckCircle, Star, Users } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { categories, craftsmen } from "@/lib/mockData";
+import CraftsmanCard from "@/components/CraftsmanCard";
 
-const Index = () => {
+const steps = [
+  { icon: Search, title: "Vyberte službu", description: "Zvolte kategorii řemeslníka, kterého potřebujete." },
+  { icon: Users, title: "Porovnejte nabídky", description: "Filtrujte podle vzdálenosti, hodnocení a ceny." },
+  { icon: CheckCircle, title: "Objednejte", description: "Popište problém, potvrďte cenu a objednejte." },
+  { icon: Star, title: "Ohodnoťte", description: "Po dokončení ohodnoťte řemeslníka a pomozte ostatním." },
+];
+
+export default function Index() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div>
+      {/* Hero */}
+      <section className="relative overflow-hidden bg-primary py-20 md:py-28">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-accent/20" />
+        <div className="container relative z-10">
+          <div className="max-w-2xl">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary-foreground leading-tight">
+              Najděte spolehlivého{" "}
+              <span className="text-accent">řemeslníka</span>{" "}
+              ve vašem okolí
+            </h1>
+            <p className="mt-4 text-lg text-primary-foreground/80 max-w-lg">
+              Ověření profesionálové, transparentní ceny, rychlé objednání. Váš domov si zaslouží ty nejlepší ruce.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link to="/search">
+                <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 gap-2 font-semibold text-base px-8">
+                  Najít řemeslníka
+                  <ArrowRight className="h-5 w-5" />
+                </Button>
+              </Link>
+              <Link to="/register?role=craftsman">
+                <Button size="lg" variant="outline" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 font-semibold text-base px-8">
+                  Jsem řemeslník
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Categories */}
+      <section className="py-16">
+        <div className="container">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-2">Kategorie služeb</h2>
+          <p className="text-muted-foreground text-center mb-10">Vyberte si z široké nabídky řemeslnických služeb</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {categories.map((cat) => (
+              <Link key={cat.id} to={`/search?category=${cat.name}`}>
+                <Card className="card-hover text-center cursor-pointer">
+                  <CardContent className="p-6">
+                    <span className="text-4xl">{cat.icon}</span>
+                    <h3 className="mt-3 font-semibold text-foreground">{cat.name}</h3>
+                    <p className="text-sm text-muted-foreground mt-1">{cat.count} řemeslníků</p>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className="py-16 bg-secondary/50">
+        <div className="container">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10">Jak to funguje</h2>
+          <div className="grid md:grid-cols-4 gap-6">
+            {steps.map((step, i) => (
+              <div key={i} className="text-center">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-accent text-accent-foreground mb-4">
+                  <step.icon className="h-6 w-6" />
+                </div>
+                <h3 className="font-semibold mb-1">{step.title}</h3>
+                <p className="text-sm text-muted-foreground">{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Top craftsmen */}
+      <section className="py-16">
+        <div className="container">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold">Nejlépe hodnocení</h2>
+            <Link to="/search">
+              <Button variant="ghost" className="gap-1 text-accent">
+                Zobrazit vše <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {craftsmen.slice(0, 3).map((c) => (
+              <CraftsmanCard key={c.id} craftsman={c} />
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
-};
-
-export default Index;
+}
