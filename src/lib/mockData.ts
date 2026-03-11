@@ -46,7 +46,7 @@ export const craftsmen: Craftsman[] = [
     id: "6", name: "David Kučera", avatar: "", category: "Zámečník",
     rating: 4.9, reviewCount: 91, hourlyRate: 600, distance: 2.3,
     available: true, description: "Nouzové otevírání dveří, výměna zámků, bezpečnostní systémy.",
-    phone: "+420 777 678 901", completedJobs: 267, location: "Praha 1", workRadius: 35,
+    phone: "+420 777 678 901", completedJobs: 267, location: "Praha 1", workRadius: 35, premium: true,
   },
 ];
 

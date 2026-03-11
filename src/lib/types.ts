@@ -13,6 +13,7 @@ export interface Craftsman {
   completedJobs: number;
   location: string;
   workRadius: number;
+  premium?: boolean;
 }
 
 export interface Category {
