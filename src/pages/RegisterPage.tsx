@@ -4,9 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { categories } from "@/lib/mockData";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 
 export default function RegisterPage() {
@@ -16,7 +14,7 @@ export default function RegisterPage() {
   const [role, setRole] = useState(defaultRole);
 
   const handleRegister = () => {
-    toast.success("Registrace úspěšná! Zkontrolujte svůj e-mail pro ověření.");
+    toast.success("Registrace úspěšná! Můžete se přihlásit.");
     navigate("/login");
   };
 
@@ -36,9 +34,15 @@ export default function RegisterPage() {
           </Tabs>
 
           <div className="space-y-4">
-            <div>
-              <Label>Jméno</Label>
-              <Input placeholder="Jan Novák" className="mt-1" />
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label>Jméno</Label>
+                <Input placeholder="Jan" className="mt-1" />
+              </div>
+              <div>
+                <Label>Příjmení</Label>
+                <Input placeholder="Novák" className="mt-1" />
+              </div>
             </div>
             <div>
               <Label>E-mail</Label>
@@ -48,33 +52,12 @@ export default function RegisterPage() {
               <Label>Heslo</Label>
               <Input type="password" placeholder="••••••••" className="mt-1" />
             </div>
-            <div>
-              <Label>Vaše lokalita</Label>
-              <Input placeholder="Praha 4" className="mt-1" />
-            </div>
 
-            {role === "craftsman" && (
-              <>
-                <div>
-                  <Label>Specializace</Label>
-                  <Select>
-                    <SelectTrigger className="mt-1"><SelectValue placeholder="Vyberte kategorii" /></SelectTrigger>
-                    <SelectContent>
-                      {categories.map((c) => (
-                        <SelectItem key={c.id} value={c.name}>{c.icon} {c.name}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label>Hodinová sazba (Kč)</Label>
-                  <Input type="number" placeholder="450" className="mt-1" />
-                </div>
-                <div>
-                  <Label>Oblast působení (km)</Label>
-                  <Input type="number" placeholder="25" className="mt-1" />
-                </div>
-              </>
+            {role === "customer" && (
+              <div>
+                <Label>Vaše lokalita</Label>
+                <Input placeholder="Praha 4" className="mt-1" />
+              </div>
             )}
 
             <Button onClick={handleRegister} className="w-full bg-accent text-accent-foreground hover:bg-accent/90 font-semibold" size="lg">
@@ -84,6 +67,12 @@ export default function RegisterPage() {
               Máte účet?{" "}
               <Link to="/login" className="text-accent hover:underline font-medium">Přihlaste se</Link>
             </p>
+
+            {role === "craftsman" && (
+              <p className="text-center text-xs text-muted-foreground">
+                Po registraci si doplníte profil (sazba, lokace, specializace) v panelu řemeslníka.
+              </p>
+            )}
           </div>
         </CardContent>
       </Card>

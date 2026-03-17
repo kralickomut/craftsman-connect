@@ -1,57 +1,42 @@
-import React, { useState, useMemo } from "react";
-import { Search as SearchIcon, SlidersHorizontal } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { useState, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
+import { SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { categories, craftsmen } from "@/lib/mockData";
 import CraftsmanCard from "@/components/CraftsmanCard";
-import AdBanner from "@/components/AdBanner";
 
 export default function SearchPage() {
-  const [category, setCategory] = useState<string>("all");
+  const [searchParams] = useSearchParams();
+  const initialCategory = searchParams.get("category") || "all";
+  
+  const [category, setCategory] = useState<string>(initialCategory);
   const [maxDistance, setMaxDistance] = useState(50);
-  const [maxRate, setMaxRate] = useState(1000);
-  const [sortBy, setSortBy] = useState<string>("rating");
+  const [locationQuery, setLocationQuery] = useState("");
   const [showFilters, setShowFilters] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
 
   const filtered = useMemo(() => {
-    let list = craftsmen.filter((c) => {
+    return craftsmen.filter((c) => {
       if (category !== "all" && c.category !== category) return false;
       if (c.distance > maxDistance) return false;
-      if (c.hourlyRate > maxRate) return false;
-      if (searchQuery && !c.name.toLowerCase().includes(searchQuery.toLowerCase()) && !c.category.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+      if (locationQuery && !c.location.toLowerCase().includes(locationQuery.toLowerCase())) return false;
       return true;
     });
-
-    // Premium craftsmen always first
-    list.sort((a, b) => {
-      if (a.premium && !b.premium) return -1;
-      if (!a.premium && b.premium) return 1;
-      if (sortBy === "rating") return b.rating - a.rating;
-      if (sortBy === "distance") return a.distance - b.distance;
-      if (sortBy === "price") return a.hourlyRate - b.hourlyRate;
-      return 0;
-    });
-
-    return list;
-  }, [category, maxDistance, maxRate, sortBy, searchQuery]);
+  }, [category, maxDistance, locationQuery]);
 
   return (
     <div className="container py-8">
       <h1 className="text-3xl font-bold mb-6">Najít řemeslníka</h1>
 
-      {/* Search bar */}
       <div className="flex gap-3 mb-6">
         <div className="relative flex-1">
-          <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Hledat podle jména nebo kategorie..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
+            placeholder="Zadejte vaši lokalitu (např. Praha 4)..."
+            value={locationQuery}
+            onChange={(e) => setLocationQuery(e.target.value)}
           />
         </div>
         <Button variant="outline" onClick={() => setShowFilters(!showFilters)} className="gap-2">
@@ -60,9 +45,8 @@ export default function SearchPage() {
         </Button>
       </div>
 
-      {/* Filters */}
       {showFilters && (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 p-5 rounded-lg border bg-card mb-6 animate-fade-in">
+        <div className="grid sm:grid-cols-2 gap-6 p-5 rounded-lg border bg-card mb-6 animate-fade-in">
           <div>
             <Label className="mb-2 block">Kategorie</Label>
             <Select value={category} onValueChange={setCategory}>
@@ -80,38 +64,13 @@ export default function SearchPage() {
             <Label className="mb-2 block">Max. vzdálenost: {maxDistance} km</Label>
             <Slider value={[maxDistance]} onValueChange={([v]) => setMaxDistance(v)} min={1} max={50} step={1} />
           </div>
-
-          <div>
-            <Label className="mb-2 block">Max. sazba: {maxRate} Kč/h</Label>
-            <Slider value={[maxRate]} onValueChange={([v]) => setMaxRate(v)} min={100} max={1500} step={50} />
-          </div>
-
-          <div>
-            <Label className="mb-2 block">Řadit podle</Label>
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="rating">Hodnocení</SelectItem>
-                <SelectItem value="distance">Vzdálenost</SelectItem>
-                <SelectItem value="price">Cena</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
         </div>
       )}
 
-      {/* Results */}
       <p className="text-sm text-muted-foreground mb-4">{filtered.length} výsledků</p>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filtered.map((c, i) => (
-          <React.Fragment key={c.id}>
-            <CraftsmanCard craftsman={c} />
-            {i === 2 && (
-              <div className="md:col-span-2 lg:col-span-3">
-                <AdBanner variant="compact" />
-              </div>
-            )}
-          </React.Fragment>
+        {filtered.map((c) => (
+          <CraftsmanCard key={c.id} craftsman={c} />
         ))}
       </div>
       {filtered.length === 0 && (

@@ -1,194 +1,133 @@
 import { useState } from "react";
-import { Check, X, CheckCircle, Clock, DollarSign, BarChart3, ToggleLeft, ToggleRight, Crown, Zap } from "lucide-react";
+import { Clock, MapPin, User } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
-import { mockOrders } from "@/lib/mockData";
-import StatusBadge from "@/components/StatusBadge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { mockOrders, categories } from "@/lib/mockData";
 import { toast } from "sonner";
-import { Order } from "@/lib/types";
 
 export default function CraftsmanDashboard() {
-  const [orders, setOrders] = useState<Order[]>(mockOrders);
-  const [available, setAvailable] = useState(true);
+  const [orders] = useState(mockOrders);
+
+  // Profile state
   const [hourlyRate, setHourlyRate] = useState("450");
+  const [location, setLocation] = useState("Praha 4");
   const [workRadius, setWorkRadius] = useState("25");
-  const [premium, setPremium] = useState(false);
+  const [category, setCategory] = useState("Instalatér");
+  const [description, setDescription] = useState("Zkušený instalatér s 15 lety praxe.");
 
   const pending = orders.filter((o) => o.status === "pending");
-  const active = orders.filter((o) => ["accepted", "in_progress"].includes(o.status));
-  const completed = orders.filter((o) => o.status === "completed");
 
-  const acceptOrder = (id: string) => {
-    setOrders((prev) => prev.map((o) => o.id === id ? { ...o, status: "accepted" as const } : o));
-    toast.success("Zakázka přijata!");
+  const formatDate = (dateStr: string) => {
+    return new Date(dateStr).toLocaleString("cs-CZ", {
+      day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit"
+    });
   };
 
-  const rejectOrder = (id: string) => {
-    setOrders((prev) => prev.map((o) => o.id === id ? { ...o, status: "cancelled" as const } : o));
-    toast("Zakázka odmítnuta.");
+  const handleSaveProfile = () => {
+    if (!hourlyRate || !location || !workRadius || !category) {
+      toast.error("Vyplňte všechna povinná pole pro dokončení profilu.");
+      return;
+    }
+    toast.success("Profil uložen!");
   };
 
-  const completeOrder = (id: string) => {
-    setOrders((prev) => prev.map((o) => o.id === id ? { ...o, status: "completed" as const } : o));
-    toast.success("Zakázka dokončena!");
-  };
-
-  const totalEarnings = completed.reduce((sum, o) => sum + o.estimatedPrice, 0);
+  const profileComplete = !!(hourlyRate && location && workRadius && category);
 
   return (
     <div className="container py-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold">Panel řemeslníka</h1>
-        <Button
-          variant={available ? "default" : "secondary"}
-          onClick={() => { setAvailable(!available); toast(available ? "Nastaven jako nedostupný" : "Nastaven jako dostupný"); }}
-          className={`gap-2 ${available ? "bg-success text-success-foreground" : ""}`}
-        >
-          {available ? <ToggleRight className="h-4 w-4" /> : <ToggleLeft className="h-4 w-4" />}
-          {available ? "Dostupný" : "Nedostupný"}
-        </Button>
-      </div>
+      <h1 className="text-3xl font-bold mb-6">Panel řemeslníka</h1>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <Card><CardContent className="p-4 text-center">
-          <Clock className="h-5 w-5 mx-auto text-accent mb-1" />
-          <p className="text-2xl font-bold">{pending.length}</p>
-          <p className="text-xs text-muted-foreground">Nové poptávky</p>
-        </CardContent></Card>
-        <Card><CardContent className="p-4 text-center">
-          <BarChart3 className="h-5 w-5 mx-auto text-primary mb-1" />
-          <p className="text-2xl font-bold">{active.length}</p>
-          <p className="text-xs text-muted-foreground">Aktivní zakázky</p>
-        </CardContent></Card>
-        <Card><CardContent className="p-4 text-center">
-          <CheckCircle className="h-5 w-5 mx-auto text-success mb-1" />
-          <p className="text-2xl font-bold">{completed.length}</p>
-          <p className="text-xs text-muted-foreground">Dokončené</p>
-        </CardContent></Card>
-        <Card><CardContent className="p-4 text-center">
-          <DollarSign className="h-5 w-5 mx-auto text-accent mb-1" />
-          <p className="text-2xl font-bold">{totalEarnings.toLocaleString()} Kč</p>
-          <p className="text-xs text-muted-foreground">Výdělky</p>
-        </CardContent></Card>
-      </div>
+      {!profileComplete && (
+        <div className="mb-6 p-4 rounded-lg border-2 border-accent bg-accent/5 text-sm">
+          <p className="font-semibold text-accent">⚠ Doplňte svůj profil</p>
+          <p className="text-muted-foreground mt-1">Bez kompletního profilu nemůžete přijímat poptávky. Vyplňte sazbu, lokaci, oblast působení a specializaci.</p>
+        </div>
+      )}
 
       <Tabs defaultValue="requests">
         <TabsList>
           <TabsTrigger value="requests">Poptávky ({pending.length})</TabsTrigger>
-          <TabsTrigger value="active">Aktivní ({active.length})</TabsTrigger>
-          <TabsTrigger value="settings">Nastavení</TabsTrigger>
+          <TabsTrigger value="profile">Můj profil</TabsTrigger>
         </TabsList>
 
         <TabsContent value="requests" className="mt-4 space-y-4">
-          {pending.length === 0 && <p className="text-muted-foreground py-8 text-center">Žádné nové poptávky.</p>}
-          {pending.map((order) => (
+          {!profileComplete && (
+            <p className="text-muted-foreground py-8 text-center">Nejdříve dokončete svůj profil, abyste mohli přijímat poptávky.</p>
+          )}
+          {profileComplete && pending.length === 0 && (
+            <p className="text-muted-foreground py-8 text-center">Žádné nové poptávky.</p>
+          )}
+          {profileComplete && pending.map((order) => (
             <Card key={order.id}>
               <CardContent className="p-5">
-                <div className="flex items-start justify-between gap-4">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
+                    <User className="h-5 w-5" />
+                  </div>
                   <div className="flex-1">
-                    <p className="font-semibold">{order.customer.name}</p>
-                    <p className="text-sm mt-1">{order.description}</p>
-                    <p className="text-sm text-muted-foreground mt-2">Odhad: {order.estimatedPrice} Kč · {order.paymentMethod === "card" ? "Kartou" : "Hotově"}</p>
-                    <p className="text-sm text-muted-foreground">Tel: {order.customer.phone}</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button size="sm" onClick={() => acceptOrder(order.id)} className="gap-1 bg-success text-success-foreground">
-                      <Check className="h-4 w-4" /> Přijmout
-                    </Button>
-                    <Button size="sm" variant="outline" onClick={() => rejectOrder(order.id)} className="gap-1">
-                      <X className="h-4 w-4" /> Odmítnout
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </TabsContent>
-
-        <TabsContent value="active" className="mt-4 space-y-4">
-          {active.map((order) => (
-            <Card key={order.id}>
-              <CardContent className="p-5">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-1">
-                      <p className="font-semibold">{order.customer.name}</p>
-                      <StatusBadge status={order.status} />
-                    </div>
-                    <p className="text-sm">{order.description}</p>
-                    <p className="text-sm text-muted-foreground mt-1">Tel: {order.customer.phone}</p>
-                  </div>
-                  <Button size="sm" onClick={() => completeOrder(order.id)} className="gap-1 bg-success text-success-foreground">
-                    <CheckCircle className="h-4 w-4" /> Dokončit
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </TabsContent>
-
-        <TabsContent value="settings" className="mt-4 space-y-6">
-          {/* Premium Boost */}
-          <Card className={premium ? "ring-2 ring-accent/50" : ""}>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Crown className="h-5 w-5 text-accent" /> Zvýraznění profilu
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground mb-4">
-                Aktivujte prémiový profil a zobrazujte se na předních pozicích ve výsledcích hledání. Vaše karta bude zvýrazněna značkou TOP.
-              </p>
-              <div className="grid sm:grid-cols-3 gap-3 mb-4">
-                {[
-                  { label: "7 dní", price: "199 Kč", icon: Zap },
-                  { label: "30 dní", price: "599 Kč", badge: "Nejoblíbenější", icon: Crown },
-                  { label: "90 dní", price: "1 399 Kč", icon: Crown },
-                ].map((plan) => (
-                  <button
-                    key={plan.label}
-                    onClick={() => { setPremium(true); toast.success(`Prémiový profil aktivován na ${plan.label}!`); }}
-                    className={`relative rounded-lg border-2 p-4 text-center transition-all hover:border-accent ${plan.badge ? "border-accent bg-accent/5" : "border-border"}`}
-                  >
-                    {plan.badge && (
-                      <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground text-[10px] font-bold px-2 py-0.5 rounded-full">
-                        {plan.badge}
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="font-semibold">{order.customer.firstName} {order.customer.lastName}</p>
+                      <span className="flex items-center gap-1 text-sm text-muted-foreground">
+                        <MapPin className="h-3.5 w-3.5" /> {order.customer.location}
                       </span>
-                    )}
-                    <plan.icon className="h-5 w-5 mx-auto text-accent mb-1" />
-                    <p className="font-bold text-lg">{plan.price}</p>
-                    <p className="text-sm text-muted-foreground">{plan.label}</p>
-                  </button>
-                ))}
-              </div>
-              {premium && (
-                <div className="flex items-center gap-2 text-sm text-success font-medium">
-                  <CheckCircle className="h-4 w-4" /> Prémiový profil je aktivní
+                    </div>
+                    <p className="text-sm mt-2">{order.description}</p>
+                    <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
+                      <Clock className="h-3 w-3" /> {formatDate(order.createdAt)}
+                    </p>
+                  </div>
                 </div>
-              )}
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          ))}
+        </TabsContent>
 
-          {/* Settings */}
+        <TabsContent value="profile" className="mt-4">
           <Card>
-            <CardHeader><CardTitle>Nastavení profilu</CardTitle></CardHeader>
-            <CardContent className="space-y-4 max-w-md">
+            <CardHeader>
+              <CardTitle>Nastavení profilu</CardTitle>
+              <p className="text-sm text-muted-foreground">Vyplňte všechna pole pro aktivaci profilu a příjem poptávek.</p>
+            </CardHeader>
+            <CardContent className="space-y-4 max-w-lg">
               <div>
-                <Label>Hodinová sazba (Kč)</Label>
+                <Label>Specializace *</Label>
+                <Select value={category} onValueChange={setCategory}>
+                  <SelectTrigger className="mt-1"><SelectValue placeholder="Vyberte kategorii" /></SelectTrigger>
+                  <SelectContent>
+                    {categories.map((c) => (
+                      <SelectItem key={c.id} value={c.name}>{c.icon} {c.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label>Hodinová sazba (Kč) *</Label>
                 <Input type="number" value={hourlyRate} onChange={(e) => setHourlyRate(e.target.value)} className="mt-1" />
               </div>
               <div>
-                <Label>Oblast působení (km)</Label>
+                <Label>Lokace *</Label>
+                <Input value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Praha 4" className="mt-1" />
+              </div>
+              <div>
+                <Label>Jak daleko chci jezdit (km) *</Label>
                 <Input type="number" value={workRadius} onChange={(e) => setWorkRadius(e.target.value)} className="mt-1" />
               </div>
+
               <Separator />
-              <Button onClick={() => toast.success("Nastavení uloženo!")} className="bg-accent text-accent-foreground hover:bg-accent/90">
-                Uložit nastavení
+
+              <div>
+                <Label>Popis (volitelné)</Label>
+                <Textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Napište něco o sobě..." className="mt-1" />
+              </div>
+
+              <Button onClick={handleSaveProfile} className="bg-accent text-accent-foreground hover:bg-accent/90 font-semibold">
+                Uložit profil
               </Button>
             </CardContent>
           </Card>
