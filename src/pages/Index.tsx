@@ -1,16 +1,13 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Search, CheckCircle, Star, Users } from "lucide-react";
+import { ArrowRight, Search, CheckCircle, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { categories, craftsmen } from "@/lib/mockData";
-import CraftsmanCard from "@/components/CraftsmanCard";
-import AdBanner from "@/components/AdBanner";
+import { categories } from "@/lib/mockData";
 
 const steps = [
-  { icon: Search, title: "Vyberte službu", description: "Zvolte kategorii řemeslníka, kterého potřebujete." },
-  { icon: Users, title: "Porovnejte nabídky", description: "Filtrujte podle vzdálenosti, hodnocení a ceny." },
-  { icon: CheckCircle, title: "Objednejte", description: "Popište problém, potvrďte cenu a objednejte." },
-  { icon: Star, title: "Ohodnoťte", description: "Po dokončení ohodnoťte řemeslníka a pomozte ostatním." },
+  { icon: Search, title: "Vyberte kategorii", description: "Zvolte typ řemeslníka, kterého potřebujete." },
+  { icon: Users, title: "Vyberte řemeslníka", description: "Prohlédněte si nabídku podle lokace a vzdálenosti." },
+  { icon: CheckCircle, title: "Poptejte práci", description: "Popište problém a odešlete poptávku." },
 ];
 
 export default function Index() {
@@ -27,7 +24,7 @@ export default function Index() {
               ve vašem okolí
             </h1>
             <p className="mt-4 text-lg text-primary-foreground/80 max-w-lg">
-              Ověření profesionálové, transparentní ceny, rychlé objednání. Váš domov si zaslouží ty nejlepší ruce.
+              Vyberte si z široké nabídky ověřených řemeslníků a poptejte práci jednoduše online.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/search">
@@ -71,7 +68,7 @@ export default function Index() {
       <section className="py-16 bg-secondary/50">
         <div className="container">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-10">Jak to funguje</h2>
-          <div className="grid md:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
             {steps.map((step, i) => (
               <div key={i} className="text-center">
                 <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-accent text-accent-foreground mb-4">
@@ -80,32 +77,6 @@ export default function Index() {
                 <h3 className="font-semibold mb-1">{step.title}</h3>
                 <p className="text-sm text-muted-foreground">{step.description}</p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Ad Banner */}
-      <section className="py-8">
-        <div className="container">
-          <AdBanner />
-        </div>
-      </section>
-
-      {/* Top craftsmen */}
-      <section className="py-16">
-        <div className="container">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold">Nejlépe hodnocení</h2>
-            <Link to="/search">
-              <Button variant="ghost" className="gap-1 text-accent">
-                Zobrazit vše <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {craftsmen.slice(0, 3).map((c) => (
-              <CraftsmanCard key={c.id} craftsman={c} />
             ))}
           </div>
         </div>

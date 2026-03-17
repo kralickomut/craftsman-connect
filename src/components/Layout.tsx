@@ -1,14 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
-import { Home, Search, ClipboardList, User, Menu, X, Wrench, Shield } from "lucide-react";
+import { Home, Search, Wrench, User, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
   { to: "/", label: "Domů", icon: Home },
-  { to: "/search", label: "Hledat", icon: Search },
-  { to: "/dashboard", label: "Zakázky", icon: ClipboardList },
-  { to: "/craftsman-dashboard", label: "Řemeslník", icon: Wrench },
-  { to: "/admin", label: "Admin", icon: Shield },
+  { to: "/search", label: "Hledat řemeslníka", icon: Search },
+  { to: "/craftsman-dashboard", label: "Panel řemeslníka", icon: Wrench },
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -17,7 +15,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      {/* Top nav */}
       <header className="sticky top-0 z-50 border-b bg-card/80 backdrop-blur-md">
         <div className="container flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-display text-xl font-bold text-primary">
@@ -25,17 +22,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             ŘemeslníkApp
           </Link>
 
-          {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-1">
             {navItems.map((item) => {
               const active = location.pathname === item.to;
               return (
                 <Link key={item.to} to={item.to}>
-                  <Button
-                    variant={active ? "default" : "ghost"}
-                    size="sm"
-                    className="gap-2"
-                  >
+                  <Button variant={active ? "default" : "ghost"} size="sm" className="gap-2">
                     <item.icon className="h-4 w-4" />
                     {item.label}
                   </Button>
@@ -50,13 +42,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </Link>
           </nav>
 
-          {/* Mobile hamburger */}
           <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setMobileOpen(!mobileOpen)}>
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
 
-        {/* Mobile nav */}
         {mobileOpen && (
           <nav className="md:hidden border-t bg-card p-4 space-y-1 animate-fade-in">
             {navItems.map((item) => {
