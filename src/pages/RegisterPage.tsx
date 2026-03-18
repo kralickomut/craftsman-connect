@@ -23,7 +23,6 @@ export default function RegisterPage() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Vytvořit účet</CardTitle>
-          <p className="text-sm text-muted-foreground">Začněte používat ŘemeslníkApp</p>
         </CardHeader>
         <CardContent>
           <Tabs value={role} onValueChange={setRole} className="mb-4">

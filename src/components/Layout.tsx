@@ -18,8 +18,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-50 border-b bg-card/80 backdrop-blur-md">
         <div className="container flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-display text-xl font-bold text-primary">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground text-lg font-extrabold">Ř</span>
-            ŘemeslníkApp
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground text-lg font-extrabold">O</span>
+            Oprav.to
           </Link>
 
           <nav className="hidden md:flex items-center gap-1">
@@ -74,7 +74,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       <footer className="border-t bg-card py-8">
         <div className="container text-center text-sm text-muted-foreground">
-          © 2024 ŘemeslníkApp. Všechna práva vyhrazena.
+          © 2026 Oprav.to. Všechna práva vyhrazena.
         </div>
       </footer>
     </div>

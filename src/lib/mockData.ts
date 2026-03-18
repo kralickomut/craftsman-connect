@@ -1,51 +1,51 @@
 import { Craftsman, Category, Order } from "./types";
 
 export const categories: Category[] = [
-  { id: "1", name: "Instalatér", icon: "🔧", count: 48 },
-  { id: "2", name: "Elektrikář", icon: "⚡", count: 35 },
-  { id: "3", name: "Malíř", icon: "🎨", count: 29 },
-  { id: "4", name: "Truhlář", icon: "🪚", count: 22 },
-  { id: "5", name: "Zámečník", icon: "🔑", count: 18 },
-  { id: "6", name: "Podlahář", icon: "🏠", count: 15 },
-  { id: "7", name: "Klempíř", icon: "🛠️", count: 12 },
-  { id: "8", name: "Zedník", icon: "🧱", count: 20 },
+    { id: "1", name: "Instalatér", icon: "🔧", count: 48, description: "Potřebuji opravit odpady" },
+    { id: "2", name: "Elektrikář", icon: "⚡", count: 35, description: "Potřebuji zapojit elektřinu" },
+    { id: "3", name: "Malíř", icon: "🎨", count: 29, description: "Potřebuji vymalovat" },
+    { id: "4", name: "Truhlář", icon: "🪚", count: 22, description: "Potřebuji vyrobit nábytek" },
+    { id: "5", name: "Zámečník", icon: "🔑", count: 18, description: "Potřebuji vyměnit zámek" },
+    { id: "6", name: "Podlahář", icon: "🏠", count: 15, description: "Potřebuji položit podlahu" },
+    { id: "7", name: "Klempíř", icon: "🛠️", count: 12, description: "Potřebuji opravit střechu" },
+    { id: "8", name: "Zedník", icon: "🧱", count: 20, description: "Potřebuji něco vyzdít" },
 ];
 
 export const craftsmen: Craftsman[] = [
   {
     id: "1", firstName: "Jan", lastName: "Novák", email: "jan.novak@email.cz",
     category: "Instalatér", hourlyRate: 450, distance: 3.2,
-    available: true, description: "Zkušený instalatér s 15 lety praxe. Specializuji se na opravy vodovodů, topení a kanalizací.",
+    description: "Zkušený instalatér s 15 lety praxe. Specializuji se na opravy vodovodů, topení a kanalizací.",
     location: "Praha 4", workRadius: 25, profileComplete: true,
   },
   {
     id: "2", firstName: "Petr", lastName: "Svoboda", email: "petr.svoboda@email.cz",
     category: "Elektrikář", hourlyRate: 550, distance: 5.1,
-    available: true, description: "Certifikovaný elektrikář. Provádím kompletní elektroinstalace, opravy a revize.",
+    description: "Certifikovaný elektrikář. Provádím kompletní elektroinstalace, opravy a revize.",
     location: "Praha 6", workRadius: 30, profileComplete: true,
   },
   {
     id: "3", firstName: "Karel", lastName: "Dvořák", email: "karel.dvorak@email.cz",
     category: "Malíř", hourlyRate: 380, distance: 1.8,
-    available: false, description: "Profesionální malíř pokojů. Kvalitní materiály, čistá práce.",
+    description: "Profesionální malíř pokojů. Kvalitní materiály, čistá práce.",
     location: "Praha 2", workRadius: 15, profileComplete: true,
   },
   {
     id: "4", firstName: "Martin", lastName: "Černý", email: "martin.cerny@email.cz",
     category: "Truhlář", hourlyRate: 500, distance: 8.4,
-    available: true, description: "Zakázková výroba nábytku, opravy dveří a oken.",
+    description: "Zakázková výroba nábytku, opravy dveří a oken.",
     location: "Praha 10", workRadius: 20, profileComplete: true,
   },
   {
     id: "5", firstName: "Tomáš", lastName: "Procházka", email: "tomas.prochazka@email.cz",
     category: "Instalatér", hourlyRate: 420, distance: 4.7,
-    available: true, description: "Spolehlivý instalatér pro bytové i komerční prostory.",
+    description: "Spolehlivý instalatér pro bytové i komerční prostory.",
     location: "Praha 5", workRadius: 20, profileComplete: true,
   },
   {
     id: "6", firstName: "David", lastName: "Kučera", email: "david.kucera@email.cz",
     category: "Zámečník", hourlyRate: 600, distance: 2.3,
-    available: true, description: "Nouzové otevírání dveří, výměna zámků, bezpečnostní systémy.",
+    description: "Nouzové otevírání dveří, výměna zámků, bezpečnostní systémy.",
     location: "Praha 1", workRadius: 35, profileComplete: true,
   },
 ];

@@ -2,7 +2,6 @@ import { useParams, Link } from "react-router-dom";
 import { MapPin, Clock, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { craftsmen } from "@/lib/mockData";
 
@@ -34,9 +33,6 @@ export default function CraftsmanProfile() {
             <div className="flex-1">
               <div className="flex items-center gap-3 flex-wrap">
                 <h1 className="text-2xl font-bold">{craftsman.firstName} {craftsman.lastName}</h1>
-                <Badge variant={craftsman.available ? "default" : "secondary"} className={craftsman.available ? "bg-success text-success-foreground" : ""}>
-                  {craftsman.available ? "Dostupný" : "Nedostupný"}
-                </Badge>
               </div>
               <p className="text-muted-foreground mt-1">{craftsman.category}</p>
               <div className="flex flex-wrap items-center gap-4 mt-3 text-sm">

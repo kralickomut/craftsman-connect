@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 
 export default function LoginPage() {
@@ -15,7 +14,7 @@ export default function LoginPage() {
   const handleLogin = () => {
     if (!email || !password) { toast.error("Vyplňte všechna pole."); return; }
     toast.success("Přihlášení úspěšné!");
-    navigate("/dashboard");
+    navigate("/search");
   };
 
   return (

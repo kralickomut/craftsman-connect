@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { MapPin, Clock } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Craftsman } from "@/lib/types";
 
 export default function CraftsmanCard({ craftsman }: { craftsman: Craftsman }) {
@@ -18,9 +17,6 @@ export default function CraftsmanCard({ craftsman }: { craftsman: Craftsman }) {
                 <h3 className="font-semibold text-foreground truncate">
                   {craftsman.firstName} {craftsman.lastName}
                 </h3>
-                <Badge variant={craftsman.available ? "default" : "secondary"} className={craftsman.available ? "bg-success text-success-foreground" : ""}>
-                  {craftsman.available ? "Dostupný" : "Nedostupný"}
-                </Badge>
               </div>
               <p className="text-sm text-muted-foreground mt-0.5">{craftsman.category}</p>
               <div className="flex flex-wrap items-center gap-3 mt-2 text-sm">

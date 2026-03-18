@@ -18,14 +18,11 @@ export default function Index() {
         <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-accent/20" />
         <div className="container relative z-10">
           <div className="max-w-2xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary-foreground leading-tight">
+            <h1 className="text-3xl md:text-5xl lg:text-5xl font-extrabold text-primary-foreground leading-tight">
               Najděte spolehlivého{" "}
               <span className="text-accent">řemeslníka</span>{" "}
               ve vašem okolí
             </h1>
-            <p className="mt-4 text-lg text-primary-foreground/80 max-w-lg">
-              Vyberte si z široké nabídky ověřených řemeslníků a poptejte práci jednoduše online.
-            </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/search">
                 <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 gap-2 font-semibold text-base px-8">
@@ -46,7 +43,7 @@ export default function Index() {
       {/* Categories */}
       <section className="py-16">
         <div className="container">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-2">Kategorie služeb</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-2">S čím potřebujete pomoci?</h2>
           <p className="text-muted-foreground text-center mb-10">Vyberte si z široké nabídky řemeslnických služeb</p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {categories.map((cat) => (
@@ -54,7 +51,7 @@ export default function Index() {
                 <Card className="card-hover text-center cursor-pointer">
                   <CardContent className="p-6">
                     <span className="text-4xl">{cat.icon}</span>
-                    <h3 className="mt-3 font-semibold text-foreground">{cat.name}</h3>
+                    <h3 className="mt-3 font-semibold text-foreground">{cat.description}</h3>
                     <p className="text-sm text-muted-foreground mt-1">{cat.count} řemeslníků</p>
                   </CardContent>
                 </Card>
